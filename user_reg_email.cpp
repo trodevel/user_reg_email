@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-// $Revision: 12151 $ $Date:: 2019-10-10 #$ $Author: serge $
+// $Revision: 12160 $ $Date:: 2019-10-11 #$ $Author: serge $
 
 #include "user_reg_email.h"             // self
 
@@ -52,6 +52,7 @@ bool UserRegEmail::init(
     user_reg_       = user_reg;
 
     sender_.reset( new utils::EMailSender( config.host_name, config.port, config.username, config.password ) );
+    templ_.reset( new templtext::Templ( config_.body_template ) );
 
     return true;
 }
@@ -74,7 +75,7 @@ bool UserRegEmail::register_new_user(
         return false;
     }
 
-    res = sender_->send( error_msg, "", email, "", "", "registration", "key - " + registration_key );
+    res = send_registration( email, registration_key, error_msg );
 
     if( res == false )
     {
@@ -94,6 +95,30 @@ bool UserRegEmail::confirm_registration(
     dummy_log_trace( MODULENAME, "confirm_registration: registration_key %s", registration_key.c_str() );
 
     return user_reg_->confirm_registration( registration_key, error_msg );
+}
+
+bool UserRegEmail::send_registration(
+        const std::string           & email,
+        const std::string           & registration_key,
+        std::string                 * error_msg )
+{
+    templtext::Templ::MapKeyValue par =
+    {
+            { "REGISTARTION_KEY", registration_key }
+    };
+
+    auto body = templ_->format( par );
+
+    auto res = sender_->send(
+            error_msg,
+            utils::EMailSender::EMailWithName{ config_.sender_email, config_.sender_name },
+            utils::EMailSender::EMailWithName{ email, "" },
+            utils::EMailSender::EMailWithName{ "", "" },
+            utils::EMailSender::EMailWithName{ "", "" },
+            config_.subject,
+            body );
+
+    return res;
 }
 
 } // namespace user_reg_email
