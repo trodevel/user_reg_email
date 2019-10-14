@@ -27,6 +27,7 @@ void to_EmailWithName(
 bool read_config(
         std::string         * from,
         std::string         * from_name,
+        std::string         * to,
         std::string         * host_name,
         uint32_t            * port,
         std::string         * user_name,
@@ -46,11 +47,13 @@ bool read_config(
 
         std::getline( file, * from );
         std::getline( file, * from_name );
+        std::getline( file, * to );
 
         std::cerr << "DEBUG:" << "\n"
                 << "filename  = " << filename << "\n"
                 << "from      = " << * from << "\n"
-                << "to        = " << * from_name << "\n"
+                << "from name = " << * from_name << "\n"
+                << "to        = " << * to << "\n"
                 << "host_name = " << * host_name << "\n"
                 << "port      = " << * port << "\n"
                 << "user_name = " << * user_name << "\n"
@@ -70,6 +73,7 @@ void init(
         user_manager::UserManager       * um,
         user_reg::UserReg               * ur,
         user_reg_email::UserRegEmail    * ure,
+        std::string                     * to_email,
         uint32_t expiration,
         const std::string               & config_file,
         const std::string               & subject,
@@ -86,6 +90,7 @@ void init(
     read_config(
             & config2.sender_email,
             & config2.sender_name,
+            to_email,
             & config2.host_name,
             & config2.port,
             & config2.username,
@@ -99,12 +104,12 @@ void init(
 }
 
 bool register_user_1(
-        user_reg::UserReg           * ur,
-        user_reg::user_id_t         * user_id,
-        std::string                 * registration_key,
-        std::string                 * error_msg )
+        user_reg_email::UserRegEmail    * ure,
+        const std::string               & email,
+        user_reg::user_id_t             * user_id,
+        std::string                     * error_msg )
 {
-    return ur->register_new_user( 1, "john.doe@example.com", "\xff\xff\xff", user_id, registration_key, error_msg );
+    return ure->register_new_user( 1, email, "\xff\xff\xff", user_id, error_msg );
 }
 
 void test_kernel( const std::string & name, const std::string & config_file, const std::string & subject, const std::string & body_template )
@@ -113,13 +118,14 @@ void test_kernel( const std::string & name, const std::string & config_file, con
     user_reg::UserReg ur;
     user_reg_email::UserRegEmail ure;
 
-    init( & um, & ur, & ure, 1, config_file, subject, body_template );
+    std::string to_email;
+
+    init( & um, & ur, & ure, & to_email, 1, config_file, subject, body_template );
 
     user_reg::user_id_t user_id;
-    std::string         registration_key;
     std::string         error_msg;
 
-    auto b = register_user_1( & ur, & user_id, & registration_key, & error_msg );
+    auto b = register_user_1( & ure, to_email, & user_id, & error_msg );
 
     log_test( name, b, true, "user was added", "cannot add user", error_msg );
 }
@@ -129,9 +135,24 @@ void test_01_reg_ok_1()
     test_kernel( "test_01_reg_ok_1", "config_1.cfg", "Confirm your registration", "You registration key - $REGISTRATION_KEY" );
 }
 
+void test_01_reg_ok_2()
+{
+    test_kernel( "test_01_reg_ok_2", "config_1.cfg", "Confirm your registration",
+            "Dear User,\n\n"
+            "thank you for registering.\n\n"
+            "Please confirm you registration by clicking the on the link below:\n"
+            "www.example.com/?confirm&key=$REGISTRATION_KEY\n\n"
+            "In the link doesn't work, then go to www.example.com/confirm and paste the following confirmation code there: $REGISTRATION_KEY\n"
+            "\n"
+            "Sincerely yours,\n"
+            "The team of the Example.Com\n"
+    );
+}
+
 int main()
 {
     test_01_reg_ok_1();
+    test_01_reg_ok_2();
 
     return 0;
 }

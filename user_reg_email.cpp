@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-// $Revision: 12160 $ $Date:: 2019-10-11 #$ $Author: serge $
+// $Revision: 12167 $ $Date:: 2019-10-14 #$ $Author: serge $
 
 #include "user_reg_email.h"             // self
 
@@ -46,7 +46,7 @@ bool UserRegEmail::init(
         const Config            & config,
         user_reg::UserReg       * user_reg )
 {
-    assert( user_reg_ );
+    assert( user_reg );
 
     config_         = config;
     user_reg_       = user_reg;
@@ -104,7 +104,7 @@ bool UserRegEmail::send_registration(
 {
     templtext::Templ::MapKeyValue par =
     {
-            { "REGISTARTION_KEY", registration_key }
+            { "REGISTRATION_KEY", registration_key }
     };
 
     auto body = templ_->format( par );
