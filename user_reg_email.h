@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-// $Revision: 12160 $ $Date:: 2019-10-11 #$ $Author: serge $
+// $Revision: 13828 $ $Date:: 2020-09-23 #$ $Author: serge $
 
 #ifndef USER_REG__USER_REG_EMAIL_H
 #define USER_REG__USER_REG_EMAIL_H
@@ -45,7 +45,7 @@ struct Config
     std::string     sender_email;
     std::string     sender_name;
     std::string     subject;
-    std::string     body_template;
+    std::string     body_template_filename;
 };
 
 class UserRegEmail

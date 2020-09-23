@@ -77,7 +77,7 @@ void init(
         uint32_t expiration,
         const std::string               & config_file,
         const std::string               & subject,
-        const std::string               & body_template )
+        const std::string               & body_template_filename )
 {
     user_reg::Config config = { expiration };
 
@@ -98,7 +98,7 @@ void init(
             config_file );
 
     config2.subject         = subject;
-    config2.body_template   = body_template;
+    config2.body_template_filename   = body_template_filename;
 
     ure->init( config2, ur );
 }
@@ -112,7 +112,7 @@ bool register_user_1(
     return ure->register_new_user( 1, email, "\xff\xff\xff", user_id, error_msg );
 }
 
-void test_kernel( const std::string & name, const std::string & config_file, const std::string & subject, const std::string & body_template )
+void test_kernel( const std::string & name, const std::string & config_file, const std::string & subject, const std::string & body_template_filename )
 {
     user_manager::UserManager   um;
     user_reg::UserReg ur;
@@ -120,7 +120,7 @@ void test_kernel( const std::string & name, const std::string & config_file, con
 
     std::string to_email;
 
-    init( & um, & ur, & ure, & to_email, 1, config_file, subject, body_template );
+    init( & um, & ur, & ure, & to_email, 1, config_file, subject, body_template_filename );
 
     user_reg::user_id_t user_id;
     std::string         error_msg;
@@ -132,21 +132,12 @@ void test_kernel( const std::string & name, const std::string & config_file, con
 
 void test_01_reg_ok_1()
 {
-    test_kernel( "test_01_reg_ok_1", "config_1.cfg", "Confirm your registration", "You registration key - $REGISTRATION_KEY" );
+    test_kernel( "test_01_reg_ok_1", "config_1.cfg", "Confirm your registration", "templ_01.txt" );
 }
 
 void test_01_reg_ok_2()
 {
-    test_kernel( "test_01_reg_ok_2", "config_1.cfg", "Confirm your registration",
-            "Dear User,\n\n"
-            "thank you for registering.\n\n"
-            "Please confirm you registration by clicking the on the link below:\n"
-            "www.example.com/confirm?key=$REGISTRATION_KEY\n\n"
-            "If the link doesn't work, then go to www.example.com/confirm and paste the following confirmation code there:\n$REGISTRATION_KEY\n"
-            "\n"
-            "Sincerely yours,\n"
-            "The team of the Example.Com\n"
-    );
+    test_kernel( "test_01_reg_ok_2", "config_1.cfg", "Confirm your registration", "templ_02.txt" );
 }
 
 int main()

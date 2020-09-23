@@ -19,12 +19,13 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-// $Revision: 12167 $ $Date:: 2019-10-14 #$ $Author: serge $
+// $Revision: 13828 $ $Date:: 2020-09-23 #$ $Author: serge $
 
 #include "user_reg_email.h"             // self
 
 #include "utils/dummy_logger.h"         // dummy_log
 #include "utils/utils_assert.h"         // ASSERT
+#include "utils/read_text_file.h"       // read_text_file
 
 #define MODULENAME      "UserRegEmail"
 
@@ -51,8 +52,10 @@ bool UserRegEmail::init(
     config_         = config;
     user_reg_       = user_reg;
 
+    auto body_template = utils::read_text_file( config_.body_template_filename );
+
     sender_.reset( new utils::EMailSender( config.host_name, config.port, config.username, config.password ) );
-    templ_.reset( new templtext::Templ( config_.body_template ) );
+    templ_.reset( new templtext::Templ( body_template ) );
 
     return true;
 }

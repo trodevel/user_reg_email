@@ -1,0 +1,15 @@
+Dear User,
+
+thank you for registering.
+
+Please confirm you registration by clicking the on the link below:
+
+www.example.com/confirm?key=$REGISTRATION_KEY
+
+If the link doesn't work, then go to www.example.com/confirm and paste the following confirmation code there:
+
+$REGISTRATION_KEY
+
+Sincerely yours,
+The team of the Example.Com
+
