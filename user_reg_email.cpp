@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-// $Revision: 13828 $ $Date:: 2020-09-23 #$ $Author: serge $
+// $Revision: 13838 $ $Date:: 2020-09-25 #$ $Author: serge $
 
 #include "user_reg_email.h"             // self
 
@@ -86,7 +86,7 @@ bool UserRegEmail::register_new_user(
         return false;
     }
 
-    dummy_log_info( MODULENAME, "register_new_user: id %u, registration_key %s, expiration %s (%u)", * user_id, registration_key.c_str() );
+    dummy_log_info( MODULENAME, "register_new_user: id %u, registration_key %s", * user_id, registration_key.c_str() );
 
     return res;
 }
