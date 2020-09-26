@@ -144,28 +144,42 @@ void test_01_reg_ok_2()
 
 void test_02()
 {
-    std::string config_file( "config_dummy.ini" );
+    bool res = false;
+    std::string error_msg;
 
-    config_reader::ConfigReader cr;
+    try
+    {
+        std::string config_file( "config_dummy.ini" );
 
-    cr.init( config_file );
+        config_reader::ConfigReader cr;
 
-    user_manager::UserManager   um;
-    user_reg::UserReg ur;
-    user_reg_email::UserRegEmail ure;
+        cr.init( config_file );
 
-    user_reg::Config config = { 1 };
+        user_manager::UserManager   um;
+        user_reg::UserReg ur;
+        user_reg_email::UserRegEmail ure;
 
-    um.init();
+        user_reg::Config config = { 1 };
 
-    ur.init( config, & um );
+        um.init();
 
-    user_reg_email::Config config2;
+        ur.init( config, & um );
 
-    user_reg_email::init_config( & config2, "config", cr );
-    user_reg_email::init_credentials( & config2, "credentials", cr );
+        user_reg_email::Config config2;
 
-    ure.init( config2, & ur );
+        user_reg_email::init_config( & config2, "config", cr );
+        user_reg_email::init_credentials( & config2, "credentials", cr );
+
+        ure.init( config2, & ur );
+
+        res = true;
+    }
+    catch( std::exception & e )
+    {
+        error_msg   = e.what();
+    }
+
+    log_test( "test_02", res, true, "config read successfully", "cannot read", error_msg );
 }
 
 int main()
