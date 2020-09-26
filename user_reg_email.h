@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-// $Revision: 13828 $ $Date:: 2020-09-23 #$ $Author: serge $
+// $Revision: 13839 $ $Date:: 2020-09-25 #$ $Author: serge $
 
 #ifndef USER_REG__USER_REG_EMAIL_H
 #define USER_REG__USER_REG_EMAIL_H
@@ -29,24 +29,13 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "user_reg/user_reg.h"  // UserReg
 #include "utils/EMailSender.h"  // utils::EMailSender
 #include "templtext/templ.h"    // templtext::Templ
+#include "config.h"             // Config
 
 namespace user_reg_email
 {
 
 using user_id_t = user_reg::user_id_t;
 using group_id_t = user_reg::group_id_t;
-
-struct Config
-{
-    std::string     host_name;
-    uint32_t        port;
-    std::string     username;
-    std::string     password;
-    std::string     sender_email;
-    std::string     sender_name;
-    std::string     subject;
-    std::string     body_template_filename;
-};
 
 class UserRegEmail
 {
