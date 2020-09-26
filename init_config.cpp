@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-// $Revision: 13844 $ $Date:: 2020-09-26 #$ $Author: serge $
+// $Revision: 13848 $ $Date:: 2020-09-26 #$ $Author: serge $
 
 #include "init_config.h"       // self
 
@@ -44,4 +44,4 @@ void init_credentials( Config * cfg, const std::string & section_name, const con
     GET_VALUE( cr, cfg, password, section_name, true );
 }
 
-} // namespace shopndrop
+} // namespace user_reg_email
