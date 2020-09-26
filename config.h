@@ -19,10 +19,10 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-// $Revision: 13839 $ $Date:: 2020-09-25 #$ $Author: serge $
+// $Revision: 13852 $ $Date:: 2020-09-26 #$ $Author: serge $
 
-#ifndef USER_REG__CONFIG_H
-#define USER_REG__CONFIG_H
+#ifndef USER_REG_EMAIL__CONFIG_H
+#define USER_REG_EMAIL__CONFIG_H
 
 #include <string>               // std::unique_ptr
 
@@ -44,4 +44,4 @@ struct Config
 } // namespace user_reg_email
 
 
-#endif // USER_REG__CONFIG_H
+#endif // USER_REG_EMAIL__CONFIG_H
