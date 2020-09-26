@@ -2,9 +2,11 @@
 #include <fstream>
 
 #include "user_reg_email.h"
+#include "init_config.h"
 
 #include "utils/dummy_logger.h" // dummy_logger::set_log_level
 #include "utils/log_test.h"     // log_test
+#include "config_reader/config_reader.h"    // config_reader::ConfigReader
 
 void to_EmailWithName(
         utils::EMailSender::EMailWithName   * res,
@@ -140,10 +142,37 @@ void test_01_reg_ok_2()
     test_kernel( "test_01_reg_ok_2", "config_1.cfg", "Confirm your registration", "templ_02.txt" );
 }
 
+void test_02()
+{
+    std::string config_file( "config_dummy.ini" );
+
+    config_reader::ConfigReader cr;
+
+    cr.init( config_file );
+
+    user_manager::UserManager   um;
+    user_reg::UserReg ur;
+    user_reg_email::UserRegEmail ure;
+
+    user_reg::Config config = { 1 };
+
+    um.init();
+
+    ur.init( config, & um );
+
+    user_reg_email::Config config2;
+
+    user_reg_email::init_config( & config2, "config", cr );
+    user_reg_email::init_credentials( & config2, "credentials", cr );
+
+    ure.init( config2, & ur );
+}
+
 int main()
 {
     test_01_reg_ok_1();
     test_01_reg_ok_2();
+    test_02();
 
     return 0;
 }
