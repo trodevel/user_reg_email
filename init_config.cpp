@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-// $Revision: 13848 $ $Date:: 2020-09-26 #$ $Author: serge $
+// $Revision: 13895 $ $Date:: 2020-09-27 #$ $Author: serge $
 
 #include "init_config.h"       // self
 
@@ -30,15 +30,15 @@ namespace user_reg_email
 
 void init_config( Config * cfg, const std::string & section_name, const config_reader::ConfigReader & cr )
 {
-    GET_VALUE( cr, cfg, host_name, section_name, true );
-    GET_VALUE_CONVERTED( cr, cfg, port, section_name, true );
+    GET_VALUE( cr, cfg, sender_name, section_name, true );
     GET_VALUE( cr, cfg, subject, section_name, true );
     GET_VALUE( cr, cfg, body_template_filename, section_name, true );
 }
 
 void init_credentials( Config * cfg, const std::string & section_name, const config_reader::ConfigReader & cr )
 {
-    GET_VALUE( cr, cfg, sender_name, section_name, true );
+    GET_VALUE( cr, cfg, host_name, section_name, true );
+    GET_VALUE_CONVERTED( cr, cfg, port, section_name, true );
     GET_VALUE( cr, cfg, sender_email, section_name, true );
     GET_VALUE( cr, cfg, username, section_name, true );
     GET_VALUE( cr, cfg, password, section_name, true );
