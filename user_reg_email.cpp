@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-// $Revision: 13838 $ $Date:: 2020-09-25 #$ $Author: serge $
+// $Revision: 13931 $ $Date:: 2020-10-03 #$ $Author: serge $
 
 #include "user_reg_email.h"             // self
 
@@ -74,7 +74,7 @@ bool UserRegEmail::register_new_user(
 
     if( res == false )
     {
-        dummy_log_error( MODULENAME, "register_new_user: failed - ", * error_msg );
+        dummy_log_info( MODULENAME, "register_new_user: failed - %s", error_msg->c_str() );
         return false;
     }
 
@@ -82,7 +82,7 @@ bool UserRegEmail::register_new_user(
 
     if( res == false )
     {
-        dummy_log_error( MODULENAME, "register_new_user: failed to send email - ", * error_msg );
+        dummy_log_error( MODULENAME, "register_new_user: failed to send email - %s", error_msg->c_str() );
         return false;
     }
 
